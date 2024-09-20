@@ -34,7 +34,7 @@ return {
         })
 
         local lspconfig = require("lspconfig")
-        lspconfig.pylsp.setup {
+        lspconfig.pylsp.setup({
             capabilities = capabilities,
             settings = {
                 pylsp = {
@@ -63,14 +63,17 @@ return {
                     }
                 }
             }
-        }
+        })
+        lspconfig.ocamllsp.setup({
+            on_attach = on_attach,
+        })
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
-
+        
         cmp.setup({
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<C-Space>'] = cmp.mapping.confirm({ select = true }),
+                ['<Tab>'] = cmp.mapping.confirm({ select = true }),
                 ["<C-y>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
@@ -91,5 +94,8 @@ return {
                 prefix = "",
             },
         })
+
+        vim.keymap.set('n', '<leader>hh', vim.lsp.buf.hover, {})
+
     end
 }
